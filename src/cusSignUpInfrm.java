@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author baonguyen
@@ -138,34 +137,41 @@ public class cusSignUpInfrm extends javax.swing.JFrame {
 
             stmt.setString(1, user1);
             stmt.setString(2, pass1);
-            
 
             stmt.execute();
 
-            
         } catch (SQLException ex) {
-            ex.printStackTrace();}
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-                try {
+        try {
             String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
             Connection con = DriverManager.getConnection(connectionUrl);
             PreparedStatement stmt = con.prepareStatement(
-                    "insert into [dbo].[customer] values(?,?)");
+                    "select * from [dbo].[Customer] "
+                    + "where [user_name] = ? and [Phone] = ?");
             String user1 = customer_userName.getText();
             String pass1 = customer_password.getText();
 
             stmt.setString(1, user1);
             stmt.setString(2, pass1);
-            
 
-            stmt.execute();
+            ResultSet rs  = stmt.executeQuery();
+            if(rs.next()==false){
+                JOptionPane.showMessageDialog(null, "incorrect user_name or password", "Message", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            else{
+                new cusTaskfrm().show();
+                this.dispose();
+            }
 
-            
         } catch (SQLException ex) {
-            ex.printStackTrace();}
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
