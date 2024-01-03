@@ -152,7 +152,7 @@ public class cusSignUpInfrm extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(connectionUrl);
             PreparedStatement stmt = con.prepareStatement(
                     "select * from [dbo].[Customer] "
-                    + "where [user_name] = ? and [Phone] = ?");
+                    + "where [name] = ? and [Phone] = ?");
             String user1 = customer_userName.getText();
             String pass1 = customer_password.getText();
 
