@@ -125,8 +125,10 @@ public class cusSignInfrm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "wrong phone or password", "Message", JOptionPane.WARNING_MESSAGE);
                 return;
             } else {
+                
                 this.dispose();
                 new cusTaskfrm().show();
+                
 
             }
 
