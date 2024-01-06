@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author baonguyen
@@ -118,17 +117,18 @@ public class cusSignInfrm extends javax.swing.JFrame {
             String phone = phoneJTextField.getText();
             String pass = passwordJTextField.getText();
             ResultSet rs = stmt.executeQuery(
-                    "select * from [dbo].[customer] "
+                    "select customer_id , phone , passwords from [dbo].[customer] "
                     + "where phone = '" + phone + "' and passwords = '" + pass + "'");
 
             if (rs.next() == false) {
                 JOptionPane.showMessageDialog(null, "wrong phone or password", "Message", JOptionPane.WARNING_MESSAGE);
                 return;
             } else {
-                
+                int customerid = rs.getInt(1);
                 this.dispose();
-                new cusTaskfrm().show();
                 
+                cusTaskfrm.getInstance().updatePhonenumber(customerid);
+                cusTaskfrm.getInstance().setVisible(true);
 
             }
 
