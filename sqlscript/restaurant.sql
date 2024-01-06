@@ -1,10 +1,12 @@
+drop DATABASE restaurant
 CREATE database restaurant
-
+use restaurant
+drop TABLE Customer
 CREATE TABLE Customer
 (
   Customer_id INT NOT NULL identity,
-  Name VARCHAR(255) NOT NULL,
-  Phone varchar(255) NOT NULL,
+  Phone VARCHAR(255) NOT NULL,
+  Passwords varchar(255) NOT NULL,
   PRIMARY KEY (Customer_id)
 );
 
@@ -35,7 +37,7 @@ CREATE TABLE Menu
 CREATE TABLE Cheff
 (
   Cheff_id INT NOT NULL identity,
-  Name VARCHAR NOT NULL,
+  Name VARCHAR(255) NOT NULL,
   PRIMARY KEY (Cheff_id)
 );
 
