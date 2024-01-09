@@ -210,6 +210,8 @@ public class cusTaskfrm extends javax.swing.JFrame {
             stmt1.execute();
             this.dispose();
             cusMenufrm.getInstance().setVisible(true);
+            cusMenufrm.getInstance().showMenu();
+            
             
         } catch (SQLException ex) {
             ex.printStackTrace();
