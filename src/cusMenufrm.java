@@ -173,6 +173,37 @@ public class cusMenufrm extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        try {
+
+            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+            Connection con = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = con.prepareStatement(
+                    "");
+
+            ResultSet rs = stmt.executeQuery();
+
+            // Iterate through the data in the result set and display it.
+            // process query results
+            StringBuilder results = new StringBuilder();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+            results.append("\n");
+            //  Metadata
+            while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+            menujTextArea.setText(results.toString());
+
+        } // Handle any errors that may have occurred.
+        catch (SQLException e) {
+            menujTextArea.setText(e.getMessage());
+        }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
