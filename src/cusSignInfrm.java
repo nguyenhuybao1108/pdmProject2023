@@ -111,9 +111,9 @@ public class cusSignInfrm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
-            Connection con = DriverManager.getConnection(connectionUrl);
-            Statement stmt = con.createStatement();
+//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+//            Connection con = DriverManager.getConnection(connectionUrl);
+            Statement stmt = Connectionsql.getConnection().createStatement();
             String phone = phoneJTextField.getText();
             String pass = passwordJTextField.getText();
             ResultSet rs = stmt.executeQuery(

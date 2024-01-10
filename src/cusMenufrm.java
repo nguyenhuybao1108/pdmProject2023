@@ -181,9 +181,9 @@ public class cusMenufrm extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
 
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
-            Connection con = DriverManager.getConnection(connectionUrl);
-            PreparedStatement stmt = con.prepareStatement(
+//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+//            Connection con = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "DECLARE @randomChefID int\n"
                     + "select top(1)\n"
                     + "    @randomChefID = cheff_id\n"
@@ -198,7 +198,7 @@ public class cusMenufrm extends javax.swing.JFrame {
             stmt.setInt(2, Integer.parseInt(dishIDJTxtfield.getText()));
             stmt.setInt(3, Integer.parseInt(quantityJtxtfield.getText()));
             stmt.execute();
-            PreparedStatement stmt1 = con.prepareStatement(
+            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
                     "SELECT m.NAME as 'dish_name' , sum(oi.quantity) as 'quantity'\n"
                     + "FROM order_item oi , menu m\n"
                     + "WHERE order_id = ? and oi.dish_id = m.dish_id\n"

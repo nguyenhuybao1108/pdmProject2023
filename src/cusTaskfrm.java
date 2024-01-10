@@ -155,9 +155,9 @@ public class cusTaskfrm extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String slot = slotJtextfield.getText();
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
-            Connection con = DriverManager.getConnection(connectionUrl);
-            PreparedStatement stmt = con.prepareStatement(
+//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+//            Connection con = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "select * from [dbo].[Tables]"
                     + "where [table_Status] = 'A' "
                     + "and slot = ?");
@@ -191,24 +191,24 @@ public class cusTaskfrm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
-            Connection con = DriverManager.getConnection(connectionUrl);
-            Statement stmt = con.createStatement();
+//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+//            Connection con = DriverManager.getConnection(connectionUrl);
+            Statement stmt = Connectionsql.getConnection().createStatement();
             int table_id = Integer.parseInt(tablejTextField.getText());
 
             PreparedStatement stmt1;
-            stmt1 = con.prepareStatement(
+            stmt1 = Connectionsql.getConnection().prepareStatement(
                     "insert into [dbo].[book] values(?,?)");
             stmt1.setInt(1, customerid);
             stmt1.setInt(2, table_id);
 
             stmt1.execute();
-            stmt1 = con.prepareStatement("update tables \n"
+            stmt1 = Connectionsql.getConnection().prepareStatement("update tables \n"
                     + "set table_status = 'O'\n"
                     + "where table_id = ?");
             stmt1.setInt(1, table_id);
             stmt1.execute();
-            stmt1 = con.prepareStatement(
+            stmt1 = Connectionsql.getConnection().prepareStatement(
                     "insert into orders(customer_id , dates) VALUEs (?,GETDATE())");
             stmt1.setInt(1, customerid);
             stmt1.execute();
