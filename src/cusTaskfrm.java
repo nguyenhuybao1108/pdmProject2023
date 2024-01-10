@@ -220,12 +220,13 @@ public class cusTaskfrm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "wrong phone or password", "Message", JOptionPane.WARNING_MESSAGE);
                 return;
             } else {
-                int order_id = rs.getInt(1);
+                int order_id = rs.getInt("order_id");
 
                 this.dispose();
                 cusMenufrm.getInstance().setVisible(true);
                 cusMenufrm.getInstance().showMenu();
                 cusMenufrm.getInstance().updateOrderID(order_id);
+                Billfrm.getInstance().updateTableID(table_id);
 
             }
             //

@@ -102,6 +102,11 @@ public class cusMenufrm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(menujTextArea);
 
         jButton1.setText("order");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("dishID");
 
@@ -119,6 +124,11 @@ public class cusMenufrm extends javax.swing.JFrame {
         jScrollPane2.setViewportView(orderjTextArea);
 
         jButton3.setText("remove");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,6 +240,69 @@ public class cusMenufrm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       try {
+
+//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+//            Connection con = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
+                    "DECLARE @randomChefID int\n"
+                    + "select top(1)\n"
+                    + "    @randomChefID = cheff_id\n"
+                    + "from Cheff\n"
+                    + "order by newid()\n"
+                    + "\n"
+                    + "insert into order_item\n"
+                    + "    (order_id , dish_id , quantity , cheff_id)\n"
+                    + "VALUES\n"
+                    + "    (?,?,-?,@randomChefID)");
+            stmt.setInt(1, order_id);
+            stmt.setInt(2, Integer.parseInt(dishIDJTxtfield.getText()));
+            stmt.setInt(3, Integer.parseInt(quantityJtxtfield.getText()));
+            stmt.execute();
+            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
+                    "SELECT m.NAME as 'dish_name' , sum(oi.quantity) as 'quantity'\n"
+                    + "FROM order_item oi , menu m\n"
+                    + "WHERE order_id = ? and oi.dish_id = m.dish_id\n"
+                    + "group by oi.dish_id , m.name");
+            stmt1.setInt(1, order_id); // Assuming order_id is a String
+            ResultSet rs = stmt1.executeQuery();
+
+            // Iterate through the data in the result set and display it.
+            // process query results
+            StringBuilder results = new StringBuilder();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+            results.append("\n");
+            //  Metadata
+            while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+            orderjTextArea.setText(results.toString());
+
+        } // Handle any errors that may have occurred.
+        catch (SQLException e) {
+            orderjTextArea.setText(e.getMessage());
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        Billfrm.getInstance().updateOrderID(order_id);
+        Billfrm.getInstance().setVisible(true);
+        Billfrm.getInstance().showBill();
+        Billfrm.getInstance().showTotal();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
