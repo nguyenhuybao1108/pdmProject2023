@@ -19,6 +19,12 @@ import java.util.logging.Logger;
  */
 public class cusMenufrm extends javax.swing.JFrame {
 
+    int order_id;
+
+    public void updateOrderID(int id) {
+        this.order_id = id;
+    }
+
     public void showMenu() {
         try {
 
@@ -178,9 +184,27 @@ public class cusMenufrm extends javax.swing.JFrame {
             String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
             Connection con = DriverManager.getConnection(connectionUrl);
             PreparedStatement stmt = con.prepareStatement(
-                    "");
-
-            ResultSet rs = stmt.executeQuery();
+                    "DECLARE @randomChefID int\n"
+                    + "select top(1)\n"
+                    + "    @randomChefID = cheff_id\n"
+                    + "from Cheff\n"
+                    + "order by newid()\n"
+                    + "\n"
+                    + "insert into order_item\n"
+                    + "    (order_id , dish_id , quantity , cheff_id)\n"
+                    + "VALUES\n"
+                    + "    (?,?,?,@randomChefID)");
+            stmt.setInt(1, order_id);
+            stmt.setInt(2, Integer.parseInt(dishIDJTxtfield.getText()));
+            stmt.setInt(3, Integer.parseInt(quantityJtxtfield.getText()));
+            stmt.execute();
+            PreparedStatement stmt1 = con.prepareStatement(
+                    "SELECT m.NAME as 'dish_name' , sum(oi.quantity) as 'quantity'\n"
+                    + "FROM order_item oi , menu m\n"
+                    + "WHERE order_id = ? and oi.dish_id = m.dish_id\n"
+                    + "group by oi.dish_id , m.name");
+            stmt1.setInt(1, order_id); // Assuming order_id is a String
+            ResultSet rs = stmt1.executeQuery();
 
             // Iterate through the data in the result set and display it.
             // process query results
@@ -198,13 +222,13 @@ public class cusMenufrm extends javax.swing.JFrame {
                 }
                 results.append("\n");
             }
-            menujTextArea.setText(results.toString());
+            orderjTextArea.setText(results.toString());
 
         } // Handle any errors that may have occurred.
         catch (SQLException e) {
-            menujTextArea.setText(e.getMessage());
+            orderjTextArea.setText(e.getMessage());
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -237,7 +261,7 @@ public class cusMenufrm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
             }
         });
     }

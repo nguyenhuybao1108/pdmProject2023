@@ -23,11 +23,11 @@ public class cusTaskfrm extends javax.swing.JFrame {
      */
     public static cusTaskfrm instance;
     int customerid;
-    
+
     public void updatePhonenumber(int cusid) {
         this.customerid = cusid;
     }
-    
+
     public cusTaskfrm() {
         initComponents();
     }
@@ -181,7 +181,7 @@ public class cusTaskfrm extends javax.swing.JFrame {
                 results.append("\n");
             }
             txtResult.setText(results.toString());
-            
+
         } // Handle any errors that may have occurred.
         catch (SQLException e) {
             txtResult.setText(e.getMessage());
@@ -195,24 +195,41 @@ public class cusTaskfrm extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(connectionUrl);
             Statement stmt = con.createStatement();
             int table_id = Integer.parseInt(tablejTextField.getText());
-            
+
             PreparedStatement stmt1;
             stmt1 = con.prepareStatement(
                     "insert into [dbo].[book] values(?,?)");
             stmt1.setInt(1, customerid);
             stmt1.setInt(2, table_id);
-            
+
             stmt1.execute();
             stmt1 = con.prepareStatement("update tables \n"
                     + "set table_status = 'O'\n"
                     + "where table_id = ?");
-            stmt1.setInt(1,table_id );
+            stmt1.setInt(1, table_id);
             stmt1.execute();
-            this.dispose();
-            cusMenufrm.getInstance().setVisible(true);
-            cusMenufrm.getInstance().showMenu();
-            
-            
+            stmt1 = con.prepareStatement(
+                    "insert into orders(customer_id , dates) VALUEs (?,GETDATE())");
+            stmt1.setInt(1, customerid);
+            stmt1.execute();
+            //
+            ResultSet rs = stmt.executeQuery("select top(1) order_id from orders \n"
+                    + "order by order_id desc");
+
+            if (rs.next() == false) {
+                JOptionPane.showMessageDialog(null, "wrong phone or password", "Message", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                int order_id = rs.getInt(1);
+
+                this.dispose();
+                cusMenufrm.getInstance().setVisible(true);
+                cusMenufrm.getInstance().showMenu();
+                cusMenufrm.getInstance().updateOrderID(order_id);
+
+            }
+            //
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -222,7 +239,7 @@ public class cusTaskfrm extends javax.swing.JFrame {
             instance = new cusTaskfrm();
         }
         return instance;
-        
+
     }
 
     /**
@@ -256,7 +273,7 @@ public class cusTaskfrm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new cusTaskfrm().setVisible(true);
-                
+
             }
         });
     }
