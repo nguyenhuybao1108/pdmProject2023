@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -186,122 +189,120 @@ public class cusMenufrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+ArrayList<HashMap<Integer, Integer>> orders = new ArrayList<>();
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        try {
+        HashMap<Integer, Integer> newOrder = new HashMap<>();
+        String orderText = "";
 
-//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
-//            Connection con = DriverManager.getConnection(connectionUrl);
-            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
-                    "DECLARE @randomChefID int\n"
-                    + "select top(1)\n"
-                    + "    @randomChefID = cheff_id\n"
-                    + "from Cheff\n"
-                    + "order by newid()\n"
-                    + "\n"
-                    + "insert into order_item\n"
-                    + "    (order_id , dish_id , quantity , cheff_id)\n"
-                    + "VALUES\n"
-                    + "    (?,?,?,@randomChefID)");
-            stmt.setInt(1, order_id);
-            stmt.setInt(2, Integer.parseInt(dishIDJTxtfield.getText()));
-            stmt.setInt(3, Integer.parseInt(quantityJtxtfield.getText()));
-            stmt.execute();
-            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
-                    "SELECT m.NAME as 'dish_name' , sum(oi.quantity) as 'quantity'\n"
-                    + "FROM order_item oi , menu m\n"
-                    + "WHERE order_id = ? and oi.dish_id = m.dish_id\n"
-                    + "group by oi.dish_id , m.name");
-            stmt1.setInt(1, order_id); // Assuming order_id is a String
-            ResultSet rs = stmt1.executeQuery();
+        // Get new dishID and quantity
+        int newDishID = Integer.parseInt(dishIDJTxtfield.getText());
+        int newQuantity = Integer.parseInt(quantityJtxtfield.getText());
 
-            // Iterate through the data in the result set and display it.
-            // process query results
-            StringBuilder results = new StringBuilder();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int numberOfColumns = metaData.getColumnCount();
-            for (int i = 1; i <= numberOfColumns; i++) {
-                results.append(metaData.getColumnName(i)).append("\t");
+        // Loop through existing orders
+        boolean dishExists = false;
+        for (HashMap<Integer, Integer> order : orders) {
+            // Check if new dishID already exists in any order
+            if (order.containsKey(newDishID)) {
+                dishExists = true;
+                // Existing quantity
+                int existingQuantity = order.get(newDishID);
+                // Update quantity with new order added
+                order.put(newDishID, existingQuantity + newQuantity);
+                break;  // No need to check further orders if found
             }
-            results.append("\n");
-            //  Metadata
-            while (rs.next()) {
-                for (int i = 1; i <= numberOfColumns; i++) {
-                    results.append(rs.getObject(i)).append("\t");
-                }
-                results.append("\n");
-            }
-            orderjTextArea.setText(results.toString());
-
-        } // Handle any errors that may have occurred.
-        catch (SQLException e) {
-            orderjTextArea.setText(e.getMessage());
         }
+
+        // If dish doesn't exist, add it as a new entry
+        if (!dishExists) {
+            newOrder.put(newDishID, newQuantity);
+            orders.add(newOrder);
+        }
+
+        // Build and update order text
+        for (HashMap<Integer, Integer> order : orders) {
+//            orderText += "Order:\n";
+            for (Integer dishID : order.keySet()) {
+                Integer quantity = order.get(dishID);
+                orderText += "  DishID: " + dishID + ", Quantity: " + quantity + "\n";
+            }
+        }
+        orderjTextArea.setText(orderText);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       try {
+// TODO add your handling code here:
+        HashMap<Integer, Integer> newOrder = new HashMap<>();
+        String orderText = "";
 
-//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
-//            Connection con = DriverManager.getConnection(connectionUrl);
-            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
-                    "DECLARE @randomChefID int\n"
-                    + "select top(1)\n"
-                    + "    @randomChefID = cheff_id\n"
-                    + "from Cheff\n"
-                    + "order by newid()\n"
-                    + "\n"
-                    + "insert into order_item\n"
-                    + "    (order_id , dish_id , quantity , cheff_id)\n"
-                    + "VALUES\n"
-                    + "    (?,?,-?,@randomChefID)");
-            stmt.setInt(1, order_id);
-            stmt.setInt(2, Integer.parseInt(dishIDJTxtfield.getText()));
-            stmt.setInt(3, Integer.parseInt(quantityJtxtfield.getText()));
-            stmt.execute();
-            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
-                    "SELECT m.NAME as 'dish_name' , sum(oi.quantity) as 'quantity'\n"
-                    + "FROM order_item oi , menu m\n"
-                    + "WHERE order_id = ? and oi.dish_id = m.dish_id\n"
-                    + "group by oi.dish_id , m.name");
-            stmt1.setInt(1, order_id); // Assuming order_id is a String
-            ResultSet rs = stmt1.executeQuery();
+        // Get new dishID and quantity
+        int newDishID = Integer.parseInt(dishIDJTxtfield.getText());
 
-            // Iterate through the data in the result set and display it.
-            // process query results
-            StringBuilder results = new StringBuilder();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int numberOfColumns = metaData.getColumnCount();
-            for (int i = 1; i <= numberOfColumns; i++) {
-                results.append(metaData.getColumnName(i)).append("\t");
-            }
-            results.append("\n");
-            //  Metadata
-            while (rs.next()) {
-                for (int i = 1; i <= numberOfColumns; i++) {
-                    results.append(rs.getObject(i)).append("\t");
+        int newQuantity = Integer.parseInt(quantityJtxtfield.getText());
+
+        // Loop through existing orders
+        boolean dishExists = false;
+        for (HashMap<Integer, Integer> order : orders) {
+            // Check if new dishID already exists in any order
+            if (order.containsKey(newDishID)) {
+                dishExists = true;
+                // Existing quantity
+                int existingQuantity = order.get(newDishID);
+                int totalQuantity = existingQuantity - newQuantity;
+                if (totalQuantity <= 0) {
+                    order.remove(newDishID);
+                    break;
                 }
-                results.append("\n");
+                // Update quantity with new order added
+                order.put(newDishID, totalQuantity);
+                break;  // No need to check further orders if found
             }
-            orderjTextArea.setText(results.toString());
-
-        } // Handle any errors that may have occurred.
-        catch (SQLException e) {
-            orderjTextArea.setText(e.getMessage());
         }
 
+        // If dish doesn't exist, add it as a new entry
+        if (!dishExists) {
+            return;
+        }
+
+        // Build and update order text
+        for (HashMap<Integer, Integer> order : orders) {
+//            orderText += "Order:\n";
+            for (Integer dishID : order.keySet()) {
+                Integer quantity = order.get(dishID);
+                orderText += "  DishID: " + dishID + ", Quantity: " + quantity + "\n";
+            }
+        }
+        orderjTextArea.setText(orderText);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            for (HashMap<Integer, Integer> order : orders) {
+                for (Integer dishID : order.keySet()) {
+                    Integer quantity = order.get(dishID);
+                    PreparedStatement stmt = Connectionsql.getConnection().prepareStatement("DECLARE @randomcheffid int\n"
+                            + "select @randomcheffid = Cheff_id\n"
+                            + "from Cheff\n"
+                            + "order by NEWID()\n"
+                            + "insert into Order_item(Dish_id , quantity , Cheff_id ,Order_id) values(?,?,@randomcheffid,?)");
+                    stmt.setInt(1, dishID);
+                    stmt.setInt(2, quantity);
+                    stmt.setInt(3, order_id);
+                    stmt.execute();
+                }
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(cusMenufrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
         Billfrm.getInstance().updateOrderID(order_id);
         Billfrm.getInstance().setVisible(true);
         Billfrm.getInstance().showBill();
         Billfrm.getInstance().showTotal();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

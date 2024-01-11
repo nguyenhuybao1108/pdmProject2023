@@ -90,7 +90,9 @@ public class Billfrm extends javax.swing.JFrame {
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton1))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(36, 36, 36)
@@ -134,7 +136,7 @@ public class Billfrm extends javax.swing.JFrame {
                     + "where Table_id = ?");
             stmt1.setInt(1, tableID); // Assuming order_id is a String
             stmt1.execute();
-            System.out.println("Billfrm.jButton1ActionPerformed()");
+
             this.dispose();
         } catch (Exception ex) {
             ex.printStackTrace();
