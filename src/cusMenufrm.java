@@ -292,8 +292,13 @@ ArrayList<HashMap<Integer, Integer>> orders = new ArrayList<>();
                     stmt.setInt(2, quantity);
                     stmt.setInt(3, order_id);
                     stmt.execute();
+                    order.remove(dishID);
+                    
+                    
                 }
-            } 
+            }
+            orderjTextArea.setText("");
+            
         } catch (SQLException ex) {
             Logger.getLogger(cusMenufrm.class.getName()).log(Level.SEVERE, null, ex);
         }

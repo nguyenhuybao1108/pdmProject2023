@@ -50,6 +50,7 @@ public class Billfrm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         BilljTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -57,6 +58,8 @@ public class Billfrm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+
+        jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,6 +142,7 @@ public class Billfrm extends javax.swing.JFrame {
 
             this.dispose();
             new Rolefrm().show();
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -253,6 +257,7 @@ public class Billfrm extends javax.swing.JFrame {
     private javax.swing.JTextArea BilljTextArea;
     private javax.swing.JTextArea TotaljTextArea;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
