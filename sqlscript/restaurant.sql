@@ -1,13 +1,13 @@
-drop DATABASE restaurant
 CREATE database restaurant
 use restaurant
-drop TABLE Customer
+
 CREATE TABLE Customer
 (
     Customer_id INT NOT NULL identity,
     Phone VARCHAR(255) NOT NULL,
     Passwords varchar(255) NOT NULL,
-    PRIMARY KEY (Customer_id)
+    PRIMARY KEY (Customer_id),
+    UNIQUE(Phone)
 );
 
 CREATE TABLE Orders
@@ -34,11 +34,11 @@ CREATE TABLE Menu
     PRIMARY KEY (Dish_id)
 );
 
-CREATE TABLE Cheff
+CREATE TABLE Chef
 (
-    Cheff_id INT NOT NULL identity,
+    Chef_id INT NOT NULL identity,
     Name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (Cheff_id)
+    PRIMARY KEY (Chef_id)
 );
 
 CREATE TABLE Bill
@@ -54,14 +54,14 @@ CREATE TABLE Bill
 
 CREATE TABLE Order_item
 (
-    id INT NOT NULL,
+    
     quantity INT NOT NULL,
     Dish_id INT NOT NULL,
-    Cheff_id INT NOT NULL,
+    Chef_id INT NOT NULL,
     Order_id INT NOT NULL,
-    PRIMARY KEY (id),
+    
     FOREIGN KEY (Dish_id) REFERENCES Menu(Dish_id),
-    FOREIGN KEY (Cheff_id) REFERENCES Cheff(Cheff_id),
+    FOREIGN KEY (Chef_id) REFERENCES Chef(Chef_id),
     FOREIGN KEY (Order_id) REFERENCES Orders(Order_id)
 );
 
