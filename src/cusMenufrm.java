@@ -283,11 +283,11 @@ ArrayList<HashMap<Integer, Integer>> orders = new ArrayList<>();
             for (HashMap<Integer, Integer> order : orders) {
                 for (Integer dishID : order.keySet()) {
                     Integer quantity = order.get(dishID);
-                    PreparedStatement stmt = Connectionsql.getConnection().prepareStatement("DECLARE @randomcheffid int\n"
-                            + "select @randomcheffid = Cheff_id\n"
-                            + "from Cheff\n"
+                    PreparedStatement stmt = Connectionsql.getConnection().prepareStatement("DECLARE @randomchefid int\n"
+                            + "select @randomchefid = Chef_id\n"
+                            + "from Chef\n"
                             + "order by NEWID()\n"
-                            + "insert into Order_item(Dish_id , quantity , Cheff_id ,Order_id) values(?,?,@randomcheffid,?)");
+                            + "insert into Order_item(Dish_id , quantity , Chef_id ,Order_id) values(?,?,@randomchefid,?)");
                     stmt.setInt(1, dishID);
                     stmt.setInt(2, quantity);
                     stmt.setInt(3, order_id);
