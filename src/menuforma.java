@@ -154,6 +154,9 @@ public class menuforma extends javax.swing.JFrame {
     //     DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
         
     //     tblModel.addRow(data);
+    if( txtName.getText().equals("")||txtPrice.getText().equals("") ){
+        JOptionPane.showMessageDialog(this, "Please enter All data!");
+    } else {
         try{
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "insert into Menu(dish_name,Price)\n"
@@ -189,6 +192,7 @@ public class menuforma extends javax.swing.JFrame {
         catch (SQLException e) {
             jTextField1.setText(e.getMessage());
         }
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -200,6 +204,9 @@ public class menuforma extends javax.swing.JFrame {
 //        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
 //        tblModel.removeRow(selectedRow);
 //    } 
+    if( txtDishId.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter All data!");
+        } else {
     try {
         PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "Delete from Menu where Dish_id =?"
@@ -231,6 +238,7 @@ public class menuforma extends javax.swing.JFrame {
     }
     catch (SQLException e) {
             jTextField1.setText(e.getMessage());
+    }
     }
     }//GEN-LAST:event_jButton3ActionPerformed
 
