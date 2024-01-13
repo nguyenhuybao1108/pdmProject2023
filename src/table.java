@@ -251,14 +251,9 @@ public class table extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        String status = txttablestatus.getText();
         if( txttableid.getText().equals("")||txttablestatus.getText().equals("")){
-         JOptionPane.showMessageDialog(this, "Please enter table's id!");
-     } else
-         if (!"1".equals(status)||!"0".equals(status)) {
-             JOptionPane.showMessageDialog(this, "Please enter 0 as emty or as full status!");
-             }
-      else
+         JOptionPane.showMessageDialog(this, "Please enter table's id! and table's status");
+     } else 
          {
        try
        {
