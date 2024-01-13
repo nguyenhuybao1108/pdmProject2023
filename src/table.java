@@ -7,6 +7,10 @@
  *
  * @author LENOVO
  */
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 public class table extends javax.swing.JFrame {
@@ -30,8 +34,6 @@ public class table extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         txttablestatus = new javax.swing.JTextField();
         txtstaffid = new javax.swing.JTextField();
         txtslot = new javax.swing.JTextField();
@@ -40,6 +42,8 @@ public class table extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtResult = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,16 +52,6 @@ public class table extends javax.swing.JFrame {
         jLabel2.setText("Staff_id");
 
         jLabel3.setText("Slot");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Table_id", "table_status", "Staff_id", "Slot"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
         jLabel4.setText("Table_status");
 
@@ -82,14 +76,18 @@ public class table extends javax.swing.JFrame {
             }
         });
 
+        txtResult.setColumns(20);
+        txtResult.setRows(5);
+        jScrollPane2.setViewportView(txtResult);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,10 +98,9 @@ public class table extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtstaffid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                .addComponent(txttablestatus, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txttableid, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(txtstaffid, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                            .addComponent(txttablestatus)
+                            .addComponent(txttableid)
                             .addComponent(txtslot, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
                         .addGap(31, 31, 31)
                         .addComponent(jButton2)
@@ -132,9 +129,9 @@ public class table extends javax.swing.JFrame {
                     .addComponent(txtslot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(14, 14, 14))
         );
@@ -144,24 +141,94 @@ public class table extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(txttableid.getText().equals("") ||txttablestatus.getText().equals("") || txtstaffid.getText().equals("")||txtslot.getText().equals("") ){
-        JOptionPane.showMessageDialog(this, "Please enter All data!");
-    } else {
-        String data[] = {txttableid.getText(), txttablestatus.getText(), txtstaffid.getText(), txtslot.getText()};
-        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+//        if(txttableid.getText().equals("") ||txttablestatus.getText().equals("") || txtstaffid.getText().equals("")||txtslot.getText().equals("") ){
+//        JOptionPane.showMessageDialog(this, "Please enter All data!");
+//    } else {
+//        String data[] = {txttableid.getText(), txttablestatus.getText(), txtstaffid.getText(), txtslot.getText()};
+//        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+//        
+//        tblModel.addRow(data);
+//    }
+       try {
+        PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
+                "Declare @randomStaffid int"
+                +"select top(1)"
+                +"@randomStaffid= Staff_id"
+                +"from Staff"
+                +"order by newid()"
+                +"insert into Tables(table_Status,Staff_id,slot)\n" 
+                +"values(?,@randomStaffid,?)"
+        );
+        stmt.setString(1, txttablestatus.getText());
+        stmt.setInt(2, Integer.parseInt(txtstaffid.getText()));
+        stmt.setInt(3, Integer.parseInt(txtslot.getText()));
+        stmt.execute();
+            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
+                    "SELECT * FROM Tables"
+            );
+        ResultSet rs = stmt1.executeQuery();
         
-        tblModel.addRow(data);
+        StringBuilder results = new StringBuilder();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int numberOfColumns = metaData.getColumnCount();
+        for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+        results.append("\n");
+        // meta date
+        while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+        txtResult.setText(results.toString());
+    }
+    catch (SQLException e) {
+            txtResult.setText(e.getMessage());
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int selectedRow = jTable1.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a row to remove!");
-    } else {
-        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
-        tblModel.removeRow(selectedRow);
+//        int selectedRow = jTable1.getSelectedRow();
+//    if (selectedRow == -1) {
+//        JOptionPane.showMessageDialog(this, "Please select a row to remove!");
+//    } else {
+//        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+//        tblModel.removeRow(selectedRow);
+//    }
+        try {
+            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
+                    "Delete from Tables\n" 
+                        + "where Table_id = ?"
+                                
+                );
+            stmt.setInt(1, Integer.parseInt(txttableid.getText()));
+            stmt.execute();
+            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
+                    "SELECT * FROM Tables"
+                );
+        ResultSet rs = stmt1.executeQuery();
+        
+        StringBuilder results = new StringBuilder();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int numberOfColumns = metaData.getColumnCount();
+        for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+        results.append("\n");
+        // meta date
+        while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+        txtResult.setText(results.toString());
+    }
+    catch (SQLException e) {
+            txtResult.setText(e.getMessage());
     }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -214,8 +281,8 @@ public class table extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea txtResult;
     private javax.swing.JTextField txtslot;
     private javax.swing.JTextField txtstaffid;
     private javax.swing.JTextField txttableid;
