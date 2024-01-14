@@ -7,7 +7,6 @@
  *
  * @author LENOVO
  */
-import java.sql.SQLException;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -173,9 +172,12 @@ public class staff extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        String staffid = txtstaffid.getText();
-        Integer id = Integer.valueOf(staffid); 
-       try{
+       if( txtstaffid.getText().equals("")){
+         JOptionPane.showMessageDialog(this, "Please enter staff's id!");
+     } else {
+        try{
+            String staffid = txtstaffid.getText();
+            Integer id = Integer.valueOf(staffid); 
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "Delete from Staff\n"
                     +"where Staff_id = "+ id
@@ -207,6 +209,7 @@ public class staff extends javax.swing.JFrame {
         catch (SQLException e) {
             TxtResult.setText(e.getMessage());
         }
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

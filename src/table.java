@@ -157,6 +157,9 @@ public class table extends javax.swing.JFrame {
 //        
 //        tblModel.addRow(data);
 //    }
+if( txtslot.getText().equals("")||txttablestatus.getText().equals("")){
+    JOptionPane.showMessageDialog(this, "Please enter table's slot and table's status!");
+} else {
        try {
         PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "Declare @randomStaffid int"
@@ -194,6 +197,7 @@ public class table extends javax.swing.JFrame {
     catch (SQLException e) {
             txtResult.setText(e.getMessage());
     }
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -205,12 +209,12 @@ public class table extends javax.swing.JFrame {
 //        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
 //        tblModel.removeRow(selectedRow);
 //    }
-     String tableid = txttableid.getText();
-     Integer id = Integer.valueOf(tableid); 
      if( txttableid.getText().equals("")){
          JOptionPane.showMessageDialog(this, "Please enter table's id!");
      } else {
          try{
+            String tableid = txttableid.getText();
+            Integer id = Integer.valueOf(tableid); 
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "Delete from Tables\n" 
                         + "where Table_id = "+ id
@@ -253,8 +257,7 @@ public class table extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-     String tableid = txttableid.getText();
-     Integer id = Integer.valueOf(tableid); 
+    
       String tablestatus = txttablestatus.getText();; 
         if( txttableid.getText().equals("")||txttablestatus.getText().equals("")){
          JOptionPane.showMessageDialog(this, "Please enter table's id! and table's status");
@@ -262,6 +265,8 @@ public class table extends javax.swing.JFrame {
          {
        try
        {
+        String tableid = txttableid.getText();
+        Integer id = Integer.valueOf(tableid); 
            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "Update Tables\n" +
                 "set table_Status = " + tablestatus +
