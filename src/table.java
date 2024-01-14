@@ -42,7 +42,6 @@ public class table extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtResult = new javax.swing.JTextArea();
-        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,13 +82,6 @@ public class table extends javax.swing.JFrame {
         txtResult.setRows(5);
         jScrollPane2.setViewportView(txtResult);
 
-        jButton4.setText("UPDATE");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,35 +103,38 @@ public class table extends javax.swing.JFrame {
                             .addComponent(txttablestatus)
                             .addComponent(txttableid)
                             .addComponent(txtslot, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
-                        .addGap(78, 78, 78)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(37, 37, 37)))
+                        .addGap(86, 86, 86)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txttableid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txttablestatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton2)
+                        .addGap(33, 33, 33)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel1)
-                    .addComponent(txttableid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(txttablestatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
                     .addComponent(txtslot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                .addGap(25, 25, 25)
+                    .addComponent(jLabel3)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addGap(60, 60, 60)
                 .addComponent(jButton1)
                 .addGap(14, 14, 14))
         );
@@ -171,7 +166,7 @@ if( txtslot.getText().equals("")||txttablestatus.getText().equals("")){
                 +"values(?,@randomStaffid,?)"
         );
         stmt.setString(1, txttablestatus.getText());
-        stmt.setInt(4, Integer.parseInt(txtslot.getText()));
+        stmt.setInt(3, Integer.parseInt(txtslot.getText()));
         stmt.execute();
             PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
                     "SELECT * FROM Tables"
@@ -220,7 +215,7 @@ if( txtslot.getText().equals("")||txttablestatus.getText().equals("")){
                         + "where Table_id = "+ id
                                 
                 );
-            stmt.setInt(1, Integer.parseInt(txttableid.getText()));
+//            stmt.setInt(1, Integer.parseInt(txttableid.getText()));
             stmt.execute();
             PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
                     "SELECT * FROM Tables"
@@ -254,53 +249,6 @@ if( txtslot.getText().equals("")||txttablestatus.getText().equals("")){
         new MaTaskfrm().show();        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    
-      String tablestatus = txttablestatus.getText();; 
-        if( txttableid.getText().equals("")||txttablestatus.getText().equals("")){
-         JOptionPane.showMessageDialog(this, "Please enter table's id! and table's status");
-     } else 
-         {
-       try
-       {
-        String tableid = txttableid.getText();
-        Integer id = Integer.valueOf(tableid); 
-           PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
-                "Update Tables\n" +
-                "set table_Status = " + tablestatus +
-                 "where Table_id = "+ id
-        );
-        stmt.setInt(1, Integer.parseInt(txttableid.getText()));
-        stmt.setString(2, txttablestatus.getText());
-        stmt.execute();
-            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
-                    "SELECT * FROM Tables"
-            );
-        ResultSet rs = stmt1.executeQuery();
-        
-        StringBuilder results = new StringBuilder();
-        ResultSetMetaData metaData = rs.getMetaData();
-        int numberOfColumns = metaData.getColumnCount();
-        for (int i = 1; i <= numberOfColumns; i++) {
-                results.append(metaData.getColumnName(i)).append("\t");
-            }
-        results.append("\n");
-        // meta date
-        while (rs.next()) {
-                for (int i = 1; i <= numberOfColumns; i++) {
-                    results.append(rs.getObject(i)).append("\t");
-                }
-                results.append("\n");
-            }
-        txtResult.setText(results.toString());
-       } catch(SQLException e)
-       {
-            txtResult.setText(e.getMessage());
-       }
-    }
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txttablestatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttablestatusActionPerformed
         // TODO add your handling code here:
@@ -345,7 +293,6 @@ if( txtslot.getText().equals("")||txttablestatus.getText().equals("")){
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
