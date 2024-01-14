@@ -205,13 +205,15 @@ public class table extends javax.swing.JFrame {
 //        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
 //        tblModel.removeRow(selectedRow);
 //    }
+     String tableid = txttableid.getText();
+     Integer integerValue = Integer.valueOf(tableid); 
      if( txttableid.getText().equals("")){
          JOptionPane.showMessageDialog(this, "Please enter table's id!");
      } else {
          try{
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "Delete from Tables\n" 
-                        + "where Table_id = ?"
+                        + "where Table_id = "+ integerValue
                                 
                 );
             stmt.setInt(1, Integer.parseInt(txttableid.getText()));
@@ -251,6 +253,9 @@ public class table extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+     String tableid = txttableid.getText();
+     Integer id = Integer.valueOf(tableid); 
+      String tablestatus = txttablestatus.getText();; 
         if( txttableid.getText().equals("")||txttablestatus.getText().equals("")){
          JOptionPane.showMessageDialog(this, "Please enter table's id! and table's status");
      } else 
@@ -259,8 +264,8 @@ public class table extends javax.swing.JFrame {
        {
            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "Update Tables\n" +
-                "set table_Status = ?\n" +
-                 "where Table_id = ?;"
+                "set table_Status = " + tablestatus +
+                 "where Table_id = "+ id
         );
         stmt.setInt(1, Integer.parseInt(txttableid.getText()));
         stmt.setString(2, txttablestatus.getText());
