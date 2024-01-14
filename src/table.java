@@ -206,14 +206,14 @@ public class table extends javax.swing.JFrame {
 //        tblModel.removeRow(selectedRow);
 //    }
      String tableid = txttableid.getText();
-     Integer integerValue = Integer.valueOf(tableid); 
+     Integer id = Integer.valueOf(tableid); 
      if( txttableid.getText().equals("")){
          JOptionPane.showMessageDialog(this, "Please enter table's id!");
      } else {
          try{
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "Delete from Tables\n" 
-                        + "where Table_id = "+ integerValue
+                        + "where Table_id = "+ id
                                 
                 );
             stmt.setInt(1, Integer.parseInt(txttableid.getText()));

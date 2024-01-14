@@ -204,14 +204,14 @@ public class menuforma extends javax.swing.JFrame {
 //        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
 //        tblModel.removeRow(selectedRow);
 //    } 
-    String dishid = txtDishId.getText();
-    Integer id = Integer.valueOf(dishid); 
+    String id = txtDishId.getText();
+    Integer dishid = Integer.valueOf(id); 
     if( txtDishId.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Please enter All data!");
         } else {
     try {
         PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
-                "Delete from Menu where Dish_id ="+ id
+                "Delete from Menu where Dish_id ="+ dishid
         );
         stmt.setInt(3, Integer.parseInt(txtDishId.getText()));
         stmt.setString(2, txtName.getText());
