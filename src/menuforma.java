@@ -42,7 +42,8 @@ public class menuforma extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         txtDishId = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtResult = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,11 +80,9 @@ public class menuforma extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+        txtResult.setColumns(20);
+        txtResult.setRows(5);
+        jScrollPane1.setViewportView(txtResult);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,11 +90,6 @@ public class menuforma extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,8 +106,15 @@ public class menuforma extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(289, 289, 289)
                                 .addComponent(jButton1))
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(142, 142, 142)
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton3))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,8 +137,8 @@ public class menuforma extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(14, 14, 14))
         );
@@ -184,10 +185,10 @@ public class menuforma extends javax.swing.JFrame {
                 }
                 results.append("\n");
             }
-        jTextField1.setText(results.toString());
+        txtResult.setText(results.toString());
         }
         catch (SQLException e) {
-            jTextField1.setText(e.getMessage());
+            txtResult.setText(e.getMessage());
         }
     }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -226,10 +227,10 @@ public class menuforma extends javax.swing.JFrame {
                 }
                 results.append("\n");
             }
-        jTextField1.setText(results.toString());
+        txtResult.setText(results.toString());
     }
     catch (SQLException e) {
-            jTextField1.setText(e.getMessage());
+            txtResult.setText(e.getMessage());
     }
     }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -239,10 +240,6 @@ public class menuforma extends javax.swing.JFrame {
         new MaTaskfrm().show();       
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void txtDishIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDishIdActionPerformed
         // TODO add your handling code here:
@@ -290,9 +287,10 @@ public class menuforma extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtDishId;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextArea txtResult;
     // End of variables declaration//GEN-END:variables
 }
