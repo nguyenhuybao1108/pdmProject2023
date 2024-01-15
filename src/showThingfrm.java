@@ -49,7 +49,12 @@ public class showThingfrm extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("best seller dishes");
+        jButton2.setText("top 5 best seller dishes");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -165,6 +170,42 @@ public class showThingfrm extends javax.swing.JFrame {
             jTextArea1.setText(e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=restaurant;user=SA;password=qA13572468;trustServerCertificate=true";
+            Connection con = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = con.prepareStatement("select top 5 oi.Dish_id ,m.Name, COUNT(oi.Order_id) as 'choices' from Order_item oi join Menu m on oi.Dish_id = m.dish_id\n"
+                    + "GROUP by oi.Dish_id ,m.name\n"
+                    + "Order by COUNT(oi.Order_id) desc");
+
+            ResultSet rs = stmt.executeQuery();
+
+            // Iterate through the data in the result set and display it.
+            // process query results
+            StringBuilder results = new StringBuilder();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+            results.append("\n");
+            //  Metadata
+            while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+            jTextArea1.setText(results.toString());
+
+        } // Handle any errors that may have occurred.
+        catch (SQLException e) {
+            jTextArea1.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
