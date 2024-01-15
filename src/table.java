@@ -133,8 +133,7 @@ if( txtslot.getText().equals("")){
        try {
         PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "Declare @randomStaffid int"
-                +"select top(1)"
-                +"@randomStaffid= Staff_id"
+                +"select top(1) @randomStaffid= Staff_id"
                 +"from Staff"
                 +"order by newid()"
                 +"insert into Tables(table_Status,Staff_id,slot)\n" 
