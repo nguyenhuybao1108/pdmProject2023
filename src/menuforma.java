@@ -7,10 +7,16 @@
  *
  * @author LENOVO
  */
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 public class menuforma extends javax.swing.JFrame {
 
+    int dish_id;
     /**
      * Creates new form menuforma
      */
@@ -36,8 +42,7 @@ public class menuforma extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         txtDishId = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,15 +73,17 @@ public class menuforma extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Dish_id", "Name", "Price"
+        txtDishId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDishIdActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        });
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,6 +91,11 @@ public class menuforma extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(201, 201, 201)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,17 +111,9 @@ public class menuforma extends javax.swing.JFrame {
                                     .addComponent(txtDishId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(289, 289, 289)
-                                .addComponent(jButton1))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3)
-                                .addGap(6, 6, 6))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(49, Short.MAX_VALUE))
+                                .addComponent(jButton1))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,9 +135,9 @@ public class menuforma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addGap(14, 14, 14))
         );
@@ -143,24 +147,100 @@ public class menuforma extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(txtName.getText().equals("") || txtDishId.getText().equals("") || txtPrice.getText().equals("") ){
+    //     if(txtName.getText().equals("") || txtDishId.getText().equals("") || txtPrice.getText().equals("") ){
+    //     JOptionPane.showMessageDialog(this, "Please enter All data!");
+    // } else {
+    //     String data[] = {txtDishId.getText(),txtName.getText(), txtPrice.getText()};
+    //     DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+        
+    //     tblModel.addRow(data);
+    if( txtName.getText().equals("")||txtPrice.getText().equals("") ){
         JOptionPane.showMessageDialog(this, "Please enter All data!");
     } else {
-        String data[] = {txtDishId.getText(),txtName.getText(), txtPrice.getText()};
-        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+        try{
+            PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
+                "insert into Menu(dish_name,Price)\n"
+      
+                + "VALUES\n"
+                    + "    (?,?)"
+            );
+        stmt.setString(1, txtName.getText());
+        stmt.setInt(2, Integer.parseInt(txtPrice.getText()));
+        stmt.execute();
+            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
+                    "SELECT * FROM menu"
+            );
+        ResultSet rs = stmt1.executeQuery();
         
-        tblModel.addRow(data);
+        StringBuilder results = new StringBuilder();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int numberOfColumns = metaData.getColumnCount();
+        for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+        results.append("\n");
+        // meta date
+        while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+        jTextField1.setText(results.toString());
+        }
+        catch (SQLException e) {
+            jTextField1.setText(e.getMessage());
+        }
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int selectedRow = jTable1.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a row to remove!");
-    } else {
-        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
-        tblModel.removeRow(selectedRow);
+//        int selectedRow = jTextField1.getSelectedRow();
+//    if (selectedRow == -1) {
+//        JOptionPane.showMessageDialog(this, "Please select a row to remove!");
+//    } else {
+//        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+//        tblModel.removeRow(selectedRow);
+//    } 
+    
+    if( txtDishId.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter All data!");
+        } else {
+    try {
+        String id = txtDishId.getText();
+        Integer dishid = Integer.valueOf(id); 
+        PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
+                "Delete from Menu where Dish_id ="+ dishid
+        );
+//        stmt.setInt(3, Integer.parseInt(txtDishId.getText()));
+//        stmt.setString(2, txtName.getText());
+//        stmt.setInt(3, Integer.parseInt(txtPrice.getText()));
+        stmt.execute();
+            PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
+                    "SELECT * FROM menu"
+            );
+        ResultSet rs = stmt1.executeQuery();
+        
+        StringBuilder results = new StringBuilder();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int numberOfColumns = metaData.getColumnCount();
+        for (int i = 1; i <= numberOfColumns; i++) {
+                results.append(metaData.getColumnName(i)).append("\t");
+            }
+        results.append("\n");
+        // meta date
+        while (rs.next()) {
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    results.append(rs.getObject(i)).append("\t");
+                }
+                results.append("\n");
+            }
+        jTextField1.setText(results.toString());
+    }
+    catch (SQLException e) {
+            jTextField1.setText(e.getMessage());
+    }
     }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -169,6 +249,14 @@ public class menuforma extends javax.swing.JFrame {
         new MaTaskfrm().show();       
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void txtDishIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDishIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDishIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,8 +300,7 @@ public class menuforma extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField txtDishId;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;

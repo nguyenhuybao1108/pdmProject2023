@@ -32,10 +32,8 @@ public class table extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txttablestatus = new javax.swing.JTextField();
-        txtstaffid = new javax.swing.JTextField();
         txtslot = new javax.swing.JTextField();
         txttableid = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -49,9 +47,13 @@ public class table extends javax.swing.JFrame {
 
         jLabel1.setText("Table_id");
 
-        jLabel2.setText("Staff_id");
-
         jLabel3.setText("Slot");
+
+        txttablestatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttablestatusActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Table_status");
 
@@ -91,47 +93,48 @@ public class table extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(19, 19, 19)))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtstaffid, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                             .addComponent(txttablestatus)
                             .addComponent(txttableid)
                             .addComponent(txtslot, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)))
+                        .addGap(86, 86, 86)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txttableid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txttablestatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton2)
+                        .addGap(33, 33, 33)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txttableid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txttablestatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtstaffid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
                     .addComponent(txtslot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(jLabel3)
                     .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addGap(60, 60, 60)
                 .addComponent(jButton1)
                 .addGap(14, 14, 14))
         );
@@ -149,6 +152,9 @@ public class table extends javax.swing.JFrame {
 //        
 //        tblModel.addRow(data);
 //    }
+if( txtslot.getText().equals("")||txttablestatus.getText().equals("")){
+    JOptionPane.showMessageDialog(this, "Please enter table's slot and table's status!");
+} else {
        try {
         PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                 "Declare @randomStaffid int"
@@ -160,7 +166,6 @@ public class table extends javax.swing.JFrame {
                 +"values(?,@randomStaffid,?)"
         );
         stmt.setString(1, txttablestatus.getText());
-        stmt.setInt(2, Integer.parseInt(txtstaffid.getText()));
         stmt.setInt(3, Integer.parseInt(txtslot.getText()));
         stmt.execute();
             PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
@@ -187,6 +192,7 @@ public class table extends javax.swing.JFrame {
     catch (SQLException e) {
             txtResult.setText(e.getMessage());
     }
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -198,13 +204,18 @@ public class table extends javax.swing.JFrame {
 //        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
 //        tblModel.removeRow(selectedRow);
 //    }
-        try {
+     if( txttableid.getText().equals("")){
+         JOptionPane.showMessageDialog(this, "Please enter table's id!");
+     } else {
+         try{
+            String tableid = txttableid.getText();
+            Integer id = Integer.valueOf(tableid); 
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
                     "Delete from Tables\n" 
-                        + "where Table_id = ?"
+                        + "where Table_id = "+ id
                                 
                 );
-            stmt.setInt(1, Integer.parseInt(txttableid.getText()));
+//            stmt.setInt(1, Integer.parseInt(txttableid.getText()));
             stmt.execute();
             PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
                     "SELECT * FROM Tables"
@@ -230,6 +241,7 @@ public class table extends javax.swing.JFrame {
     catch (SQLException e) {
             txtResult.setText(e.getMessage());
     }
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -237,6 +249,10 @@ public class table extends javax.swing.JFrame {
         new MaTaskfrm().show();        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txttablestatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttablestatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttablestatusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,13 +294,11 @@ public class table extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea txtResult;
     private javax.swing.JTextField txtslot;
-    private javax.swing.JTextField txtstaffid;
     private javax.swing.JTextField txttableid;
     private javax.swing.JTextField txttablestatus;
     // End of variables declaration//GEN-END:variables
