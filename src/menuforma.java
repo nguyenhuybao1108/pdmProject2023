@@ -159,10 +159,8 @@ public class menuforma extends javax.swing.JFrame {
     } else {
         try{
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
-                "insert into Menu(dish_name,Price)\n"
-      
-                + "VALUES\n"
-                    + "    (?,?)"
+                "insert into Menu(Name,Price)\n" +
+                    "values (?,?)"
             );
         stmt.setString(1, txtName.getText());
         stmt.setInt(2, Integer.parseInt(txtPrice.getText()));
@@ -196,15 +194,7 @@ public class menuforma extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-//        int selectedRow = jTextField1.getSelectedRow();
-//    if (selectedRow == -1) {
-//        JOptionPane.showMessageDialog(this, "Please select a row to remove!");
-//    } else {
-//        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
-//        tblModel.removeRow(selectedRow);
-//    } 
-    
-    if( txtDishId.getText().equals("")){
+        if( txtDishId.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Please enter All data!");
         } else {
     try {

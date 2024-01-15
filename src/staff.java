@@ -134,7 +134,7 @@ public class staff extends javax.swing.JFrame {
     } else {
         try{
             PreparedStatement stmt = Connectionsql.getConnection().prepareStatement(
-                    "insert into Staff (staff_name)\n"
+                    "insert into Staff (name)\n"
                     +"values(?)"
             );
             stmt.setString(1, txtname.getText());
