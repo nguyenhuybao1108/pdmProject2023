@@ -136,8 +136,8 @@ if( txtslot.getText().equals("")){
                 +"@randomStaffid= Staff_id"
                 +"from Staff"
                 +"order by newid()"
-                +"insert into Tables(Staff_id,slot)\n" 
-                +"values(@randomStaffid,?)"
+                +"insert into Tables(table_Status,Staff_id,slot)\n" 
+                +"values('A',@randomStaffid,?)"
         );
         stmt.setInt(1, Integer.parseInt(txtslot.getText()));
         stmt.execute();
