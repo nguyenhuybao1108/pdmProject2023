@@ -142,7 +142,7 @@ public class Billfrm extends javax.swing.JFrame {
 
             this.dispose();
             new Rolefrm().show();
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -156,8 +156,10 @@ public class Billfrm extends javax.swing.JFrame {
             PreparedStatement stmt1 = Connectionsql.getConnection().prepareStatement(
                     "select oi.quantity,m.Name ,m.price,  m.Price*oi.quantity as 'sum' from Order_item oi \n"
                     + "join Menu m on oi.Dish_id = m.Dish_id\n"
-                    + "where Order_id = ?");
+                    + "where Order_id = ?\n"
+                    + "insert into Bill(Order_id) values(?)");
             stmt1.setInt(1, orderID); // Assuming order_id is a String
+            stmt1.setInt(2, orderID);
             ResultSet rs = stmt1.executeQuery();
 
             // Iterate through the data in the result set and display it.
